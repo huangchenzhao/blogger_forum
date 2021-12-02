@@ -2,11 +2,16 @@
 ## 主要功能
 ![image](https://user-images.githubusercontent.com/77225753/144345257-323ca620-bbd2-4d69-9394-654780995c19.png)
 ## 配置
-*数据库：MYSQL；
-*服务器：Tomcat；
-*开发语言：JAVA、Javascript等；
-*开发工具：IntelliJ IDEA；
-*架构： Spring+SpringMVC+mybatis+Spring boot
+1. 数据库：MYSQL；
+2. 服务器：Tomcat；
+3. 开发语言：JAVA、Javascript等；
+4. 开发工具：IntelliJ IDEA；
+5. 架构： Spring+SpringMVC+mybatis+Spring boot
+## 运行
+1. boot_hblog.sql文件配置数据库
+2. IDEA导入项目自动配置
+3. 配置main/resources下的application.yml文件
+4. 运行
 ## 功能展示
 ### 人脸注册
 ![image](https://user-images.githubusercontent.com/77225753/144346107-54f9d3ea-f1c7-49ab-ba0a-a14fa63e3e6d.png)
