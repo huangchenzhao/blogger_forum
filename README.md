@@ -3,9 +3,13 @@
 ![image](https://user-images.githubusercontent.com/77225753/144345257-323ca620-bbd2-4d69-9394-654780995c19.png)
 ## 配置
 数据库：MYSQL；
+
 服务器：Tomcat；
+
 开发语言：JAVA；
+
 开发工具：IntelliJ IDEA；
+
 架构： Spring+SpringMVC+mybatis+Spring boot
 ## 功能
 ### 主页
