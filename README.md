@@ -17,6 +17,8 @@
 ![image](https://user-images.githubusercontent.com/77225753/144346107-54f9d3ea-f1c7-49ab-ba0a-a14fa63e3e6d.png)
 ### 人脸登陆
 ![image](https://user-images.githubusercontent.com/77225753/144346154-1cfd7ba3-a019-4b30-ba7b-f5071a4446c9.png)
+### 文章
+![image](https://user-images.githubusercontent.com/77225753/144348286-c0bf2bf3-0b39-4e84-8a8f-e770dda0d613.png)
 ### 语音播放评论
 ![image](https://user-images.githubusercontent.com/77225753/144346182-30245c37-edbc-4d2b-b2bc-da1031ee8792.png)
 ### 语音播放设置
