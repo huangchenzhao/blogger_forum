@@ -1,0 +1,41 @@
+#tomcat 端口设置
+server:
+  port: 80
+#jsp view的前缀及后缀配置
+spring:
+  mvc:
+    view:
+      prefix: /WEB-INF/jsp/
+      suffix: .jsp
+#静态资源映射
+  #  static-path-pattern: classpath:/static/**
+#DataSource 数据源配置Mysql
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/boot_hblog?useSSL=false&serverTimezone=Asia/Shanghai
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password:
+    tomcat:
+      max-active: 20
+      initial-size: 10
+      max-idle: 20
+#邮件配置
+  mail:
+    default-encoding: utf-8
+    host: smtp.163.com
+    username: yuanmamatouemail@163.com
+    password: yuanmamatou1234
+    port: 25
+    protocol: smtp
+#mybatis 配置
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.ruixin.bean
+#日志配置
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+logging:
+  level: warn
+
+mail:
+  href: http://127.0.0.1:81

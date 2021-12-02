@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache updateCheck="false" name="defaultCache">
+	<diskStore path="../temp/hblog/ehcache" />
+	<!-- 默认缓存配置. 
+		timeToIdleSeconds 当缓存闲置n秒后销毁
+		timeToLiveSeconds 当缓存存活n秒后销毁
+		
+		eternal:对象是否永久有效，一但设置了，timeout将不起作用。
+		
+		maxEntriesLocalHeap：内存中缓存最大个数
+		overflowToDisk：当内存中对象数量达到maxElementsInMemory时，Ehcache将会对象写到磁盘中。 
+		 
+		iskSpoolBufferSizeMB：这个参数设置DiskStore（磁盘缓存）的缓存区大小。默认是30MB。每个Cache都应该有自己的一个缓冲区。 
+		maxEntriesLocalDisk：硬盘最大缓存个数。 
+		
+	    memoryStoreEvictionPolicy：当达到maxElementsInMemory限制时，Ehcache将会根据指定的策略去清理内存。默认策略是LRU（最近最少使用）。你可以设置为FIFO（先进先出）或是LFU（较少使用）。 
+		clearOnFlush：内存数量最大时是否清除。 
+		diskPersistent  需要持久化到硬盘否
+		diskExpiryThreadIntervalSeconds  磁盘到期线程运行之间的秒数
+	-->
+	<defaultCache maxEntriesLocalHeap="100" eternal="false" timeToIdleSeconds="300" timeToLiveSeconds="600"
+		overflowToDisk="true" maxEntriesLocalDisk="100000" />
+	
+	<!-- 角色缓存 -->
+	<cache name="roleCache" maxEntriesLocalHeap="100" eternal="true" overflowToDisk="true"/>
+
+	<!-- 用户缓存 -->
+	<cache name="userCache" maxEntriesLocalHeap="100" eternal="true" overflowToDisk="true"/>
+
+	<!-- 菜单缓存 -->
+	<cache name="menuCache" maxEntriesLocalHeap="100" eternal="true" overflowToDisk="true"/>
+
+	<!-- 系统缓存 -->
+	<cache name="sysCache" maxEntriesLocalHeap="100" eternal="true" overflowToDisk="true"/>
+
+	<!-- 友情链接缓存 -->
+	<cache name="linkCache" maxEntriesLocalHeap="100" eternal="true" overflowToDisk="true"/>
+
+	<!-- 系统活动会话缓存 -->
+    <cache name="activeSessionsCache" maxEntriesLocalHeap="10000" overflowToDisk="true"
+           eternal="true" timeToLiveSeconds="0" timeToIdleSeconds="0"
+           diskPersistent="true" diskExpiryThreadIntervalSeconds="600"/>
+           
+    <!-- 简单页面缓存
+    <cache name="SimplePageCachingFilter" maxEntriesLocalHeap="100" eternal="false" overflowToDisk="true"
+    	timeToIdleSeconds="120" timeToLiveSeconds="120" memoryStoreEvictionPolicy="LFU"/> -->
+    	
+</ehcache>

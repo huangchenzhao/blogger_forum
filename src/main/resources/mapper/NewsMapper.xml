@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ruixin.dao.NewsDao" >
+    
+    <select id="findList" resultType="news">
+        SELECT
+          a.id,
+          a.type_id "typeId",
+          a.title,
+          a.content,
+          a.create_date "createDate",
+          a.`read`,
+          b.`name` "type.name",
+          c.username "createBy.username",
+          c.id "createBy.id"
+        FROM
+            h_news a
+        LEFT JOIN h_type b ON
+        a.type_id=b.id
+        LEFT JOIN h_user c
+        ON c.id=b.create_by
+        <where>
+            1=1
+            <if test="createBy != null and createBy.id !=0">
+               AND a.create_by=#{createBy.id}
+            </if>
+            <if test="title!=null">
+                AND a.title LIKE '%${title}%'
+            </if>
+            <if test="typeId !=null">
+                AND a.type_id=#{typeId}
+            </if>
+            and a.status=0 order by id DESC
+        </where>
+    </select>
+
+    <select id="get" resultType="news">
+        SELECT
+          a.id,
+          a.type_id "typeId",
+          a.title,
+          a.content,
+          a.create_date "createDate",
+          a.`read`,
+          b.`name` "type.name",
+          c.username "createBy.username",
+          c.id "createBy.id"
+        FROM
+            h_news a
+        LEFT JOIN h_type b ON
+        a.type_id=b.id
+        LEFT JOIN h_user c
+        ON c.id=a.create_by
+        <where>
+            1=1
+            <if test="id !=null ">
+               AND a.id=#{id}
+            </if>
+        </where>
+    </select>
+    
+    <select id="findTypeList" resultType="type">
+        SELECT * FROM h_type where status=0 order BY sort ASC
+    </select>
+
+    <update id="update" parameterType="news" >
+        update h_news
+        <set >
+            <if test="typeId != null" >
+                type_id = #{typeId,jdbcType=INTEGER},
+            </if>
+            <if test="title != null" >
+                title = #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="content != null" >
+                content = #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDate != null" >
+                update_date = #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null" >
+                update_by = #{updateBy.id,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null" >
+                status = #{status,jdbcType=VARCHAR},
+            </if>
+            <if test="read != null" >
+                `read` = #{read,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    
+    <update id="batchDelete">
+        UPDATE h_news SET status=1
+        <foreach collection="ids" open="where id in (" item="id" close=")" separator=",">
+            #{id}
+        </foreach>
+    </update>
+
+    <insert id="insert" parameterType="news" >
+        insert into h_news
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="typeId != null" >
+                type_id,
+            </if>
+            <if test="title != null" >
+                title,
+            </if>
+            <if test="content != null" >
+                content,
+            </if>
+            <if test="createDate != null" >
+                create_date,
+            </if>
+            <if test="createBy != null" >
+                create_by,
+            </if>
+            <if test="status != null" >
+                status,
+            </if>
+            <if test="read != null" >
+                read,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="typeId != null" >
+                #{typeId,jdbcType=INTEGER},
+            </if>
+            <if test="title != null" >
+                #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="content != null" >
+                #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null" >
+                #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createBy != null" >
+                #{createBy.id,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null" >
+                #{status,jdbcType=VARCHAR},
+            </if>
+            <if test="read != null" >
+                #{read,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    
+    <select id="getData" resultType="map">
+        SELECT SUM(1) data,DATE_FORMAT(create_date,"%Y-%m")month FROM h_news GROUP BY DATE_FORMAT(create_date,"%Y-%m")
+    </select>
+    <select id="getData1" resultType="map">
+        SELECT SUM(`read`) data,DATE_FORMAT(create_date,"%Y-%m")month FROM h_news GROUP BY DATE_FORMAT(create_date,"%Y-%m")
+    </select>
+</mapper>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruixin.dao.MenuDao">
+
+    <!--获取用户拥有的目录-->
+  <select id="findList" resultType="menu">
+        select * FROM h_menu WHERE `status`=0
+  </select>
+
+  <select id="getMenuinfoNamePath" resultType="String">
+     CALL getMenuinfoNamePath(#{url},#{permission})
+  </select>
+</mapper>

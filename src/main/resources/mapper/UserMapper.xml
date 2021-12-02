@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruixin.dao.UserDao">
+    <sql id="user">
+    a.id "id", username, email, password, status, avatar, code, a.create_date "createDate", a.create_by "createBy.id", a.update_date "updateDate",
+    a.update_by "updateBy.id", a.remark
+  </sql>
+    <sql id="userinfo">
+    b.id "userInfo.id",
+	b.address "userInfo.address",
+	b.age "userInfo.age",
+	b.birthday "userInfo.birthday",
+	b.create_by "userInfo.createBy.id",
+	b.create_date "userInfo.createDate",
+	b.mobile "userInfo.mobile",
+	b.`name` "userInfo.name",
+	b.personal "userInfo.personal",
+	b.remark "userInfo.remark",
+	b.sex "userInfo.sex",
+	b.sign "userInfo.sign",
+	b.signature "userInfo.signature",
+	b.`work` "userInfo.`work`",
+	b.update_by "userInfo.updateBy.id",
+	b.update_date "userInfo.updateDate"
+  </sql>
+
+    <!--登录：通过用户名或者邮箱查找用户-->
+    <select id="findByAccount" parameterType="string" resultType="user">
+        select
+        <include refid="user"/>
+        from h_user a
+        where username=#{userName} OR email=#{userName} limit 1
+    </select>
+
+    <!--查找用户（包括用户详细信息）-->
+    <select id="get" resultType="user">
+        select
+        <include refid="user"/>, <include refid="userinfo"/>
+        FROM h_user a
+        LEFT JOIN h_userinfo b ON a.id=b.user_id
+        <where>
+            1=1
+            <if test="id!=null">
+                and a.id=#{id}
+            </if>
+        </where>
+    </select>
+
+    <!--添加用户-->
+    <insert id="insert" parameterType="user" keyColumn="id" keyProperty="id" useGeneratedKeys="true">
+        insert into h_user
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="username != null" >
+                username,
+            </if>
+            <if test="email != null" >
+                email,
+            </if>
+            <if test="password != null" >
+                password,
+            </if>
+            <if test="status != null" >
+                status,
+            </if>
+            <if test="avatar != null" >
+                avatar,
+            </if>
+            <if test="code != null" >
+                code,
+            </if>
+            <if test="createDate != null" >
+                create_date,
+            </if>
+            <if test="createBy!=null and createBy.id != null" >
+                create_by,
+            </if>
+            <if test="remark != null" >
+                remark,
+            </if>
+            <if test="userPassword != null" >
+                user_password,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="username != null" >
+                #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null" >
+                #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null" >
+                #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null" >
+                #{status,jdbcType=VARCHAR},
+            </if>
+            <if test="avatar != null" >
+                #{avatar,jdbcType=VARCHAR},
+            </if>
+            <if test="code != null" >
+                #{code,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null" >
+                #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createBy!=null and createBy.id != null" >
+                #{createBy.id,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null" >
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="userPassword != null" >
+                #{userPassword,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <select id="getUserByCode" resultType="user" parameterType="string">
+        select
+        <include refid="user"/>
+        FROM h_user a WHERE a.code=#{code}
+    </select>
+
+    <!--更新用户-->
+    <update id="update" parameterType="user" >
+        update h_user
+        <set >
+            <if test="username != null" >
+                username = #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null" >
+                email = #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null" >
+                password = #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null" >
+                status = #{status,jdbcType=VARCHAR},
+            </if>
+            <if test="avatar != null" >
+                avatar = #{avatar,jdbcType=VARCHAR},
+            </if>
+            <if test="code != null" >
+                code = #{code,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDate != null" >
+                update_date = #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateBy != null and updateBy.id !=null" >
+                update_by = #{updateBy.id,jdbcType=TIMESTAMP},
+            </if>
+            <if test="remark != null" >
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <select id="findList" resultType="user" parameterType="user">
+        select
+        <include refid="user"/>
+        FROM h_user a
+        <where>
+            a.status!=1
+            <if test="username != null" >
+               AND username LIKE '%${username}%'
+            </if>
+        </where>
+    </select>
+
+    <update id="batchDelete">
+        UPDATE h_user set status=1
+        <foreach collection="ids" open=" where id in(" close=")" item="id" separator=",">
+            #{id}
+        </foreach>
+    </update>
+
+    <update id="faceRegister">
+        update h_user set user_face=#{userFace} where username=#{username}
+    </update>
+
+    <select id="findFace" resultType="string">
+        select user_face from h_user where username=#{username}
+    </select>
+
+    <select id="findPassword" resultType="string">
+        select user_password from h_user where username=#{username}
+    </select>
+</mapper>

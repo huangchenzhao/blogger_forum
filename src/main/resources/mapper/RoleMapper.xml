@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruixin.dao.RoleDao">
+ <!-- <select id="get" resultType="userRole">
+    SELECT user_id "userId",role_id "roleId" FROM h_user_role WHERE user_id=#{userId}
+  </select>-->
+<select id="findList" parameterType="role" resultType="role">
+  SELECT
+  b.*
+  FROM
+  h_user_role a
+  LEFT JOIN
+  h_role b
+  ON a.role_id=b.id AND b.status=0
+  <where>
+    1=1
+    <if test="user!=null">
+      and a.user_id=#{user.id}
+    </if>
+  </where>
+</select>
+
+  <select id="findRole" resultType="role" parameterType="role">
+    SELECT * FROM h_role
+  </select>
+  
+  <insert id="insertUserRole">
+      INSERT INTO h_user_role (user_id,role_id) VALUES
+      <foreach collection="roles" separator="," item="roleId">
+        (#{userId},#{roleId})
+      </foreach>
+  </insert>
+
+  <delete id="batchDeleteUserRole" >
+    DELETE FROM h_user_role WHERE user_id=#{userId}
+  </delete>
+</mapper>
